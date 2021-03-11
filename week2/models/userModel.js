@@ -14,7 +14,13 @@ const userList = [
   },
 ];
 
-const userById = (id) => {
-  return userList.filter((user) => user.id === id);
-};
-export { userList, userById };
+// Deconstruct each object to create a new without password atttibute
+const usersWithoutPassword = userList.map(({ password, ...user }) => user);
+// const usersWithoutPassword = userList.map((user) => {
+//   delete user.password;
+//   return user;
+// });
+
+const userById = (id) =>  usersWithoutPassword.filter((user) => user.id === id)
+
+export { usersWithoutPassword, userById };
