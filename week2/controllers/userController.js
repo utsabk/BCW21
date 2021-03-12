@@ -3,8 +3,6 @@
 import * as userModel from '../models/userModel.js';
 
 const getUserList = (req, res) => {
-
-    console.log('users:--'+ userModel.usersWithoutPassword);
   return res.json(userModel.usersWithoutPassword);
 };
 
@@ -14,4 +12,10 @@ const getUserById = (req, res) => {
   return res.json(userById);
 };
 
-export { getUserList, getUserById };
+const postUserData = (req, res) => {
+  const data = req.body;
+  console.log(`body data:- ${JSON.stringify(data)}`);
+  return res.json(data);
+};
+
+export { getUserList, getUserById, postUserData };

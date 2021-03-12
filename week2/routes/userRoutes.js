@@ -8,4 +8,6 @@ router.get('/', controller.getUserList);
 
 router.get('/:id', controller.getUserById);
 
+router.post('/',controller.postUserData);
+
 export default router;

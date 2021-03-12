@@ -5,7 +5,12 @@ const router = express.Router();
 
 router.get('/', controller.getCatList);
 
-router.get('/:id',controller.getCatById);
+router.get('/:id', controller.getCatById);
 
-  
+router.post(
+  '/',
+  controller.uploadDest.single('cat'),
+  controller.uploadMedia
+);
+
 export default router;
