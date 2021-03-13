@@ -1,26 +1,25 @@
 'use strict';
-const userList = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@metropolia.fi',
-    password: '1234',
-  },
-  {
-    id: '2',
-    name: 'Jane Doez',
-    email: 'jane@metropolia.fi',
-    password: 'qwer',
-  },
-];
+import pool from '../db/database.js';
 
-// Deconstruct each object to create a new without password atttibute
-const usersWithoutPassword = userList.map(({ password, ...user }) => user);
-// const usersWithoutPassword = userList.map((user) => {
-//   delete user.password;
-//   return user;
-// });
+const promisePool = pool.promise();
 
-const userById = (id) =>  usersWithoutPassword.filter((user) => user.id === id)
+const getAllUsers = async () => {
+  try {
+    const [rows] = await promisePool.query('SELECT * FROM `wop_user`');
+    return rows;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-export { usersWithoutPassword, userById };
+const getUserById = async (id) => {
+  try {
+    const [rows] = await promisePool.execute(
+      'SELECT * FROM `wop_user` WHERE `user_id`=?',
+      [id]
+    );
+    return rows;
+  } catch (e) {}
+};
+
+export { getAllUsers, getUserById };
