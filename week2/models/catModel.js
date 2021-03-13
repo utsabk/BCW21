@@ -15,7 +15,9 @@ const getAllCats = async () => {
 
 const getCat = async (id) => {
   try {
-    const [rows] = await promisePool.execute(
+    const [
+      rows,
+    ] = await promisePool.execute(
       'SELECT * FROM `wop_cat` WHERE `cat_id` = ? ',
       [id]
     );
@@ -25,4 +27,15 @@ const getCat = async (id) => {
   }
 };
 
-export { getAllCats, getCat };
+const uploadCat = async (data) => {
+  try {
+    const [rows] = await promisePool.query(
+      'INSERT INTO `wop_cat` (name, age,weight,owner,filename) VALUES (?, ?, ?, ?,?);',
+      data
+    );
+  } catch (e) {
+    console.log('Error uploadCat:-', e);
+  }
+};
+
+export { getAllCats, getCat, uploadCat };

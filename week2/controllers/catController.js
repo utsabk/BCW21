@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads/');
   },
   filename: (req, file, cb) => {
-    const date = new Date().toJSON;
+    const date = new Date().toJSON();
     const ext = file.originalname.split('.').slice(-1);
     cb(null, `${file.fieldname}-${date}.${ext}`);
   },
@@ -26,9 +26,17 @@ const getCatById = async (req, res) => {
   res.json(cat);
 };
 
-const uploadMedia = (req, res, next) => {
-  console.log(req.file, req.body);
-  next();
+const uploadMedia = async (req, res) => {
+  const data = [
+    req.body.name,
+    req.body.age,
+    req.body.weight,
+    req.body.owner,
+    req.file.filename,
+  ];
+  const upload = await catModel.uploadCat(data);
+  console.log('Upload complete',upload)
+  return res.json(upload);
 };
 
 export { getCatList, getCatById, uploadDest, uploadMedia };
