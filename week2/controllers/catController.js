@@ -26,7 +26,7 @@ const getCatById = async (req, res) => {
   res.json(cat);
 };
 
-const uploadMedia = async (req, res) => {
+const uploadCat = async (req, res) => {
   const data = [
     req.body.name,
     req.body.age,
@@ -35,8 +35,28 @@ const uploadMedia = async (req, res) => {
     req.file.filename,
   ];
   const upload = await catModel.uploadCat(data);
-  console.log('Upload complete',upload)
-  return res.json(upload);
+  console.log('Upload complete', upload);
+  return res.send(upload);
 };
 
-export { getCatList, getCatById, uploadDest, uploadMedia };
+const updateCat = async (req, res) => {
+  const data = [
+    req.body.name,
+    req.body.age,
+    req.body.weight,
+    req.body.owner,
+    req.body.id,
+  ];
+  const update = await catModel.updateCat(data);
+  console.log('update complete', update);
+  return res.send(update);
+};
+
+const deleteCat = async (req, res) => {
+  const id = req.params.id;
+  const del = await catModel.deleteCat(id);
+  console.log('delete complete', del);
+  return del;
+};
+
+export { getCatList, getCatById, uploadDest, uploadCat, updateCat, deleteCat };
