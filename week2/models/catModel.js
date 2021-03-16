@@ -6,7 +6,7 @@ const promisePool = pool.promise();
 
 const getAllCats = async () => {
   try {
-    const [rows] = await promisePool.query('SELECT * FROM wop_cat');
+    const [rows] = await promisePool.execute('SELECT * FROM wop_cat');
     return rows;
   } catch (e) {
     console.log('Error getAllCats:-', e.message);
@@ -29,7 +29,7 @@ const getCat = async (id) => {
 
 const uploadCat = async (data) => {
   try {
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
       'INSERT INTO `wop_cat` (name, age,weight,owner,filename) VALUES (?, ?, ?, ?,?);',
       data
     );
@@ -42,7 +42,7 @@ const uploadCat = async (data) => {
 
 const updateCat = async (data) => {
   try {
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
       'UPDATE `wop_cat` SET name =?, age = ?, weight = ?, owner = ? WHERE cat_id = ?',
       data
     );
@@ -55,9 +55,9 @@ const updateCat = async (data) => {
 
 const deleteCat = async (id) => {
   try {
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
       'DELETE FROM `wop_cat`WHERE cat_id = ?',
-      id
+      [id]
     );
     return rows;
   } catch (e) {

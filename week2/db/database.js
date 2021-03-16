@@ -1,8 +1,5 @@
 'use strict';
 import mysql from 'mysql2';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const pool = mysql.createPool({
   host: process.env.HOST,
@@ -14,6 +11,4 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-
-
-export default pool ;
+export default pool;
