@@ -9,33 +9,36 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    const params = [username];
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+      const params = [email];
+      try {
+        const [user] = await userModel.getUserLogin(params);
+        if (user == undefined) {
+          return done(null, false, { message: 'Incorrect Email' });
+        } else if (user.password !== password) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        // delete password before returning
+        delete user.password;
 
-    try {
-      const [user] = await userModel.getUserLogin(params);
-      if (user == undefined) {
-        return done(null, false, { message: 'Incorrect Email' });
-      } else if (user.password !== password) {
-        return done(null, false, { message: 'Incorrect password.' });
+        return done(
+          null,
+          { ...user }, // use spread syntax to create shallow copy to get rid of binary row type
+          { message: 'Logged in successfully' }
+        );
+      } catch (err) {
+        console.log('inside local strategy error');
+        return done(null, err);
       }
-
-      // delete password before returning
-      delete user.password;
-
-      return done(
-        null,
-        { ...user }, // use spread syntax to create shallow copy to get rid of binary row type
-        { message: 'Logged in successfully' }
-      );
-    } catch (err) {
-      console.log('inside local strategy error');
-      return done(null, err);
     }
-  })
+  )
 );
 
-console.log('secretOrKey:-', process.env.SECRET_KEY);
 passport.use(
   new JWTStrategy(
     {

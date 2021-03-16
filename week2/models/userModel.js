@@ -13,6 +13,7 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (id) => {
+  console.log('inside get userByID:--',id)
   try {
     const [
       rows,

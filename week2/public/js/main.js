@@ -4,7 +4,16 @@ const url = 'http://localhost:3000'; // change url when uploading to server
 const ul = document.querySelector('ul');
 
 const getCat = async () => {
-  const response = await fetch(url + '/cat');
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    }
+  };
+
+  const response = await fetch(url + '/cat',options);
   const cats = await response.json();
   for (const cat of cats) {
     const user = await getUser(cat.owner);

@@ -1,6 +1,6 @@
 'use strict';
 
-import 'dotenv/config.js'; // using ES6 modules via import,configuring dotenv in the base file doesn't set the environment vars in sub-modules 
+import 'dotenv/config.js'; // using ES6 modules via import,configuring dotenv in the base file doesn't set the environment vars in sub-modules
 import express from 'express';
 import cors from 'cors';
 import catRoutes from './routes/catRoute.js';
